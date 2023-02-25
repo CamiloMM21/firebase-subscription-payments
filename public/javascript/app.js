@@ -5,11 +5,9 @@ const firebaseConfig = {
   apiKey: "AIzaSyAyzMBF7NHLcCzOQLL9BUlDfroj5S5GiL4",
   authDomain: "mailyr-b6f95.firebaseapp.com",
   databaseURL: "https://mailyr-b6f95-default-rtdb.firebaseio.com",
-<<<<<<< HEAD
   projectId: "stripe-subs-ext",
-=======
+
   projectId: 'stripe-subs-ext',
->>>>>>> 89e11f2a9d8575439a9128c0b9e0b451204a51e7
   storageBucket: "mailyr-b6f95.appspot.com",
   messagingSenderId: "382896679460",
   appId: "1:382896679460:web:1544ccb81e970622ebc6b1",
