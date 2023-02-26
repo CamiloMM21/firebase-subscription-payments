@@ -5,14 +5,14 @@ const firebaseConfig = {
   apiKey: "AIzaSyAyzMBF7NHLcCzOQLL9BUlDfroj5S5GiL4",
   authDomain: "mailyr-b6f95.firebaseapp.com",
   databaseURL: "https://mailyr-b6f95-default-rtdb.firebaseio.com",
-  projectId: 'stripe-subs-ext',
+  projectId: "stripe-subs-ext",
   storageBucket: "mailyr-b6f95.appspot.com",
   messagingSenderId: "382896679460",
   appId: "1:382896679460:web:1544ccb81e970622ebc6b1",
 };
 
 // Replace with your cloud functions location
-const functionLocation = 'us-east1';
+const functionLocation = "us-east1";
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -31,30 +31,30 @@ const firebaseUiConfig = {
       return true;
     },
     uiShown: () => {
-      document.querySelector('#loader').style.display = 'none';
+      document.querySelector("#loader").style.display = "none";
     },
   },
-  signInFlow: 'popup',
-  signInSuccessUrl: '/',
+  signInFlow: "popup",
+  signInSuccessUrl: "/",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
   ],
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   // Your terms of service url.
-  tosUrl: 'https://example.com/terms',
+  tosUrl: "https://example.com/terms",
   // Your privacy policy url.
-  privacyPolicyUrl: 'https://example.com/privacy',
+  privacyPolicyUrl: "https://example.com/privacy",
 };
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
-    document.querySelector('#loader').style.display = 'none';
-    document.querySelector('main').style.display = 'block';
+    document.querySelector("#loader").style.display = "none";
+    document.querySelector("main").style.display = "block";
     currentUser = firebaseUser.uid;
     startDataListeners();
   } else {
-    document.querySelector('main').style.display = 'none';
-    firebaseUI.start('#firebaseui-auth-container', firebaseUiConfig);
+    document.querySelector("main").style.display = "none";
+    firebaseUI.start("#firebaseui-auth-container", firebaseUiConfig);
   }
 });
 
@@ -63,80 +63,80 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
  */
 function startDataListeners() {
   // Get all our products and render them to the page
-  const products = document.querySelector('.products');
-  const template = document.querySelector('#product');
-  db.collection('products')
-    .where('active', '==', true)
+  const products = document.querySelector(".products");
+  const template = document.querySelector("#product");
+  db.collection("products")
+    .where("active", "==", true)
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(async function (doc) {
         const priceSnap = await doc.ref
-          .collection('prices')
-          .where('active', '==', true)
-          .orderBy('unit_amount')
+          .collection("prices")
+          .where("active", "==", true)
+          .orderBy("unit_amount")
           .get();
-        if (!'content' in document.createElement('template')) {
-          console.error('Your browser doesn’t support HTML template elements.');
+        if (!"content" in document.createElement("template")) {
+          console.error("Your browser doesn’t support HTML template elements.");
           return;
         }
 
         const product = doc.data();
         const container = template.content.cloneNode(true);
 
-        container.querySelector('h2').innerText = product.name.toUpperCase();
-        container.querySelector('.description').innerText =
-          product.description?.toUpperCase() || '';
+        container.querySelector("h2").innerText = product.name.toUpperCase();
+        container.querySelector(".description").innerText =
+          product.description?.toUpperCase() || "";
         // Prices dropdown
         priceSnap.docs.forEach((doc) => {
           const priceId = doc.id;
           const priceData = doc.data();
           prices[priceId] = priceData;
           const content = document.createTextNode(
-            `${new Intl.NumberFormat('en-US', {
-              style: 'currency',
+            `${new Intl.NumberFormat("en-US", {
+              style: "currency",
               currency: priceData.currency,
             }).format((priceData.unit_amount / 100).toFixed(2))} per ${
-              priceData.interval ?? 'once'
+              priceData.interval ?? "once"
             }`
           );
-          const option = document.createElement('option');
+          const option = document.createElement("option");
           option.value = priceId;
           option.appendChild(content);
-          container.querySelector('#price').appendChild(option);
+          container.querySelector("#price").appendChild(option);
         });
 
         if (product.images.length) {
-          const img = container.querySelector('img');
+          const img = container.querySelector("img");
           img.src = product.images[0];
           img.alt = product.name;
         }
 
-        const form = container.querySelector('form');
-        form.addEventListener('submit', subscribe);
+        const form = container.querySelector("form");
+        form.addEventListener("submit", subscribe);
 
         products.appendChild(container);
       });
     });
   // Get all subscriptions for the customer
-  db.collection('customers')
+  db.collection("customers")
     .doc(currentUser)
-    .collection('subscriptions')
-    .where('status', 'in', ['trialing', 'active'])
+    .collection("subscriptions")
+    .where("status", "in", ["trialing", "active"])
     .onSnapshot(async (snapshot) => {
       if (snapshot.empty) {
         // Show products
-        document.querySelector('#subscribe').style.display = 'block';
+        document.querySelector("#subscribe").style.display = "block";
         return;
       }
-      document.querySelector('#subscribe').style.display = 'none';
-      document.querySelector('#my-subscription').style.display = 'block';
+      document.querySelector("#subscribe").style.display = "none";
+      document.querySelector("#my-subscription").style.display = "block";
       // In this implementation we only expect one Subscription to exist
       const subscription = snapshot.docs[0].data();
       const priceData = (await subscription.price.get()).data();
       document.querySelector(
-        '#my-subscription p'
-      ).textContent = `You are paying ${new Intl.NumberFormat('en-US', {
-        style: 'currency',
+        "#my-subscription p"
+      ).textContent = `You are paying ${new Intl.NumberFormat("en-US", {
+        style: "currency",
         currency: priceData.currency,
       }).format((priceData.unit_amount / 100).toFixed(2))} per ${
         priceData.interval
@@ -150,20 +150,20 @@ function startDataListeners() {
 
 // Signout button
 document
-  .getElementById('signout')
-  .addEventListener('click', () => firebase.auth().signOut());
+  .getElementById("signout")
+  .addEventListener("click", () => firebase.auth().signOut());
 
 // Checkout handler
 async function subscribe(event) {
   event.preventDefault();
-  document.querySelectorAll('button').forEach((b) => (b.disabled = true));
+  document.querySelectorAll("button").forEach((b) => (b.disabled = true));
   const formData = new FormData(event.target);
   const selectedPrice = {
-    price: formData.get('price'),
+    price: formData.get("price"),
   };
   // For prices with metered billing we need to omit the quantity parameter.
   // For all other prices we set quantity to 1.
-  if (prices[selectedPrice.price]?.recurring?.usage_type !== 'metered')
+  if (prices[selectedPrice.price]?.recurring?.usage_type !== "metered")
     selectedPrice.quantity = 1;
   const checkoutSession = {
     automatic_tax: true,
@@ -174,19 +174,19 @@ async function subscribe(event) {
     success_url: window.location.origin,
     cancel_url: window.location.origin,
     metadata: {
-      key: 'value',
+      key: "value",
     },
   };
   // For one time payments set mode to payment.
-  if (prices[selectedPrice.price]?.type === 'one_time') {
-    checkoutSession.mode = 'payment';
-    checkoutSession.payment_method_types = ['card', 'sepa_debit', 'sofort'];
+  if (prices[selectedPrice.price]?.type === "one_time") {
+    checkoutSession.mode = "payment";
+    checkoutSession.payment_method_types = ["card", "sepa_debit", "sofort"];
   }
 
   const docRef = await db
-    .collection('customers')
+    .collection("customers")
     .doc(currentUser)
-    .collection('checkout_sessions')
+    .collection("checkout_sessions")
     .add(checkoutSession);
   // Wait for the CheckoutSession to get attached by the extension
   docRef.onSnapshot((snap) => {
@@ -194,7 +194,7 @@ async function subscribe(event) {
     if (error) {
       // Show an error to your customer and then inspect your function logs.
       alert(`An error occured: ${error.message}`);
-      document.querySelectorAll('button').forEach((b) => (b.disabled = false));
+      document.querySelectorAll("button").forEach((b) => (b.disabled = false));
     }
     if (url) {
       window.location.assign(url);
@@ -204,15 +204,15 @@ async function subscribe(event) {
 
 // Billing portal handler
 document
-  .querySelector('#billing-portal-button')
-  .addEventListener('click', async (event) => {
-    document.querySelectorAll('button').forEach((b) => (b.disabled = true));
+  .querySelector("#billing-portal-button")
+  .addEventListener("click", async (event) => {
+    document.querySelectorAll("button").forEach((b) => (b.disabled = true));
 
     // Call billing portal function
     const functionRef = firebase
       .app()
       .functions(functionLocation)
-      .httpsCallable('ext-firestore-stripe-subscriptions-createPortalLink');
+      .httpsCallable("ext-firestore-stripe-subscriptions-createPortalLink");
     const { data } = await functionRef({ returnUrl: window.location.origin });
     window.location.assign(data.url);
   });
