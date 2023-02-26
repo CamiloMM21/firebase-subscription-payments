@@ -24,8 +24,12 @@
   "bugs": {
     "url": "https://github.com/stripe-samples/firebase-subscription-payments/issues"
   },
+<<<<<<< HEAD
   "homepage": "https://github.com/stripe-samples/firebase-subscription-payments#readme",
   "dependencies": {
     "firebase": "^9.17.1"
   }
+=======
+  "homepage": "https://github.com/stripe-samples/firebase-subscription-payments#readme"
+>>>>>>> 89e11f2a9d8575439a9128c0b9e0b451204a51e7
 }
