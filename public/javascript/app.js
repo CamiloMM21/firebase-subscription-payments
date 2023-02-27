@@ -1,6 +1,6 @@
 const prices = {};
 
-// Replace with your Firebase project config.
+Replace with your Firebase project config.
 const firebaseConfig = {
   apiKey: "AIzaSyAyzMBF7NHLcCzOQLL9BUlDfroj5S5GiL4",
   authDomain: "mailyr-b6f95.firebaseapp.com",
