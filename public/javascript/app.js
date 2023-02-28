@@ -1,17 +1,17 @@
 const prices = {};
 
 // Replace with your Firebase project config.
-const firebaseConfig = {
-  apiKey: "AIzaSyAyzMBF7NHLcCzOQLL9BUlDfroj5S5GiL4",
-  authDomain: "mailyr-b6f95.firebaseapp.com",
-  databaseURL: "https://mailyr-b6f95-default-rtdb.firebaseio.com",
-  projectId: "stripe-subs-ext",
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAyzMBF7NHLcCzOQLL9BUlDfroj5S5GiL4",
+//   authDomain: "mailyr-b6f95.firebaseapp.com",
+//   databaseURL: "https://mailyr-b6f95-default-rtdb.firebaseio.com",
+//   projectId: "stripe-subs-ext",
 
-  projectId: 'stripe-subs-ext',
-  storageBucket: "mailyr-b6f95.appspot.com",
-  messagingSenderId: "382896679460",
-  appId: "1:382896679460:web:1544ccb81e970622ebc6b1",
-};
+//   projectId: 'stripe-subs-ext',
+//   storageBucket: "mailyr-b6f95.appspot.com",
+//   messagingSenderId: "382896679460",
+//   appId: "1:382896679460:web:1544ccb81e970622ebc6b1",
+// };
 
 const functionLocation = "us-east1";
 
